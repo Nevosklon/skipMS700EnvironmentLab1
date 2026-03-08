@@ -280,7 +280,7 @@ function Get-OrCreate-GroupUnifiedSetting {
     $template = Get-MgBetaDirectorySettingTemplate | Where-Object { $_.DisplayName -eq 'Group.Unified' }
     if (-not $template) { throw "Group.Unified template not found." }
     if (-not $WhatIf) {
-      New-MgBetaDirectorySetting -DirectorySetting @{ TemplateId=$template.Id; Values=@() } | Out-Null
+      New-MgBetaDirectorySetting -BodyParmater @{ TemplateId=$template.Id; Values=@() } | Out-Null
       $setting = Get-MgBetaDirectorySetting | Where-Object { $_.DisplayName -eq 'Group.Unified' }
     } else { Write-Information "WhatIf: Would create directory setting from template $($template.Id)"; return $null }
   }
@@ -289,7 +289,7 @@ function Get-OrCreate-GroupUnifiedSetting {
 function Update-NCreate-DirectorySetting {
   param( [string]$DirectorySettingId, [object]$DirectorySetting )
   try {
-    Update-MgBetaDirectorySetting -DirectorySettingId $Setting.Id -DirectorySetting @{ Values=$Setting.Values } -ErrorAction Stop | Out-Null  
+    Update-MgBetaDirectorySetting -DirectorySettingId $DirectorySettingId -DirectorySetting $DirectorySetting -ErrorAction Stop | Out-Null  
   } catch {
     Write-Information "Attempt to create default tenant directory settings "
     if (-not $template) { throw "Group.Unified template not found." }
