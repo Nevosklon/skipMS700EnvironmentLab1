@@ -60,7 +60,6 @@ param(
   [string]$TeamsRolloutTeamName = "Teams Rollout",
   [string]$AfterworkTeamName    = "Group_Afterwork_",
 
-  [switch]$complete
   [switch]$WhatIf
 )
 
@@ -73,8 +72,9 @@ function Ensure-Module {
   }
   Import-Module $Name -ErrorAction Stop
 }
+
 function Ensure-Modules {
-  param([Parameter(Mandatory=$true)[string[]]$Modules])
+  param([Parameter(Mandatory=$true)][string[]]$Modules)
   foreach ( $m in $Modules ) {
     Ensure-Module -Module $m
   }
