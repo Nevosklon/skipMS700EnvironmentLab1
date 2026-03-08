@@ -373,19 +373,6 @@ function Ensure-GroupLifecyclePolicy {
   }
 }
 
-function Ensure-Tenant {
-  try {
-    if ( -not (Get-MgBetaDirectorySetting -ErrorAction Stop)) {
-      Write-Information "Creating Tenant"
-      $id = (Get-MgBetaDirectorySettingTemplate -ErrorAction Stop | where { $_.DisplayName -eq "Group.Unified" }).id;
-      New-MgBetaDirectorySetting
-      
-    } 
-  } catch {
-     Write-Error "Ensure that we have connected to Entra"
-  }
-}
-
 # ================= Execution =================
 
 # ---- Phase A: minimal scopes (users, licenses, groups) ----
