@@ -61,6 +61,8 @@ param(
   [string]$AfterworkTeamName    = "Group_Afterwork_",
 
   [switch]$WhatIf
+  [switch]$WhatIf
+  [switch]$WhatIf
 )
 
 # ================= Modules =================
@@ -328,7 +330,7 @@ function Update-DirectorySettingValues {
   if ($changed) {
     $settings = @{
       DirectorySettingId = $setting.Id
-      DirectorySetting   = @{ Values = $setting.Values }
+      Values = $setting.Values
     };
     try { Update-MgBetaDirectorySetting @settings  } catch { Write-Host $_.Exception.Message }
     return;
@@ -357,11 +359,11 @@ function Ensure-GroupNamingPolicy {
 
 function Ensure-GroupLifecyclePolicy {
   param([int]$GroupLifetimeInDays,[string]$AlternateNotificationEmails)
-  $policy = Get-MgGroupBetaLifecyclePolicy | Select-Object -First 1
+  $policy = Get-MgGroupLifecyclePolicy | Select-Object -First 1
   if (-not $policy) {
     Write-Host "Creating Group Lifecycle Policy ..." 
     if (-not $WhatIf) {
-      New-MgGroupBetaLifecyclePolicy -GroupLifetimeInDays $GroupLifetimeInDays -ManagedGroupTypes "All" -AlternateNotificationEmails $AlternateNotificationEmails | Out-Null
+      New-MgGroupLifecyclePolicy -GroupLifetimeInDays $GroupLifetimeInDays -ManagedGroupTypes "All" -AlternateNotificationEmails $AlternateNotificationEmails | Out-Null
     } else { Write-Host "WhatIf: Would create lifecycle policy" } 
   } else {
     $needsUpdate = ($policy.GroupLifetimeInDays -ne $GroupLifetimeInDays) -or
@@ -370,7 +372,7 @@ function Ensure-GroupLifecyclePolicy {
     if ($needsUpdate) {
       Write-Host "Updating Group Lifecycle Policy ..." 
       if (-not $WhatIf) {
-        Update-MgGroupBetaLifecyclePolicy -GroupLifecyclePolicyId $policy.Id `
+        Update-MgGroupLifecyclePolicy -GroupLifecyclePolicyId $policy.Id `
           -GroupLifetimeInDays $GroupLifetimeInDays -ManagedGroupTypes "All" -AlternateNotificationEmails $AlternateNotificationEmails | Out-Null
       } else { Write-Host "WhatIf: Would update lifecycle policy" } 
     } else { Write-Host "OK: Lifecycle policy already desired state." } 
