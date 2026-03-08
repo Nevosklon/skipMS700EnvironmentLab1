@@ -75,7 +75,7 @@ function Start-OrInstallTeams {
         # TODO: when internet is so shitty
         # use msiexec and iwk to download
         # as some window dont support this
-        winget install Microsoft.Teams
+        winget install Microsoft.Teams --accept-package-agreements --accept-source-agreements
     }
   }
 }
@@ -382,6 +382,7 @@ function Ensure-GroupLifecyclePolicy {
 
 # ================= Execution =================
 echo '`n=== Ensure Team is install on local computer ==='
+Start-OrInstallTeams
 
 # ---- Phase A: minimal scopes (users, licenses, groups) ----
 Connect-Graph-MinScopes -Scopes @('User.ReadWrite.All','Group.ReadWrite.All','LicenseAssignment.Read.All','RoleManagement.ReadWrite.Directory','Directory.ReadWrite.All')
