@@ -68,7 +68,7 @@ param(
 
 # ================= Modules =================
 function Start-OrInstallTeams {
-  try  { Get-Process -Name 'ms-teams.exe' } catch {
+  try  { Get-Process -Name 'ms-teams' } catch {
     $proc = Start-Process "ms-teams.exe" -PassThru -ErrorAction SilentlyContinue
     if (-not $proc) {
         Write-Host "Attempting to install MSteams"
@@ -381,6 +381,7 @@ function Ensure-GroupLifecyclePolicy {
 }
 
 # ================= Execution =================
+echo '`n=== Ensure Team is install on local computer ==='
 
 # ---- Phase A: minimal scopes (users, licenses, groups) ----
 Connect-Graph-MinScopes -Scopes @('User.ReadWrite.All','Group.ReadWrite.All','LicenseAssignment.Read.All','RoleManagement.ReadWrite.Directory','Directory.ReadWrite.All')
