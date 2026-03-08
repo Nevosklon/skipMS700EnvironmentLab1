@@ -60,9 +60,9 @@ param(
   [string]$TeamsRolloutTeamName = "Teams Rollout",
   [string]$AfterworkTeamName    = "Group_Afterwork_",
 
+  [switch]$EnableGroupRestrictPolciy,
+  [switch]$EnableLifecyclePolicy,
   [switch]$WhatIf
-  [switch]$EnableGroupRestrictPolciy
-  [switch]$EnableLifecyclePolicy
 
 )
 
