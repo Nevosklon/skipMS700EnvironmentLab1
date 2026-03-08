@@ -68,15 +68,12 @@ param(
 
 # ================= Modules =================
 function Start-OrInstallTeams {
-  try  { Get-Process -Name 'ms-teams' } catch {
-    $proc = Start-Process "ms-teams.exe" -PassThru -ErrorAction SilentlyContinue
-    if (-not $proc) {
-        Write-Host "Attempting to install MSteams"
+  try  { Start-Process "ms-teams.exe"  } catch {
+      Write-Host "Attempting to install MSteams"
         # TODO: when internet is so shitty
         # use msiexec and iwk to download
         # as some window dont support this
-        winget install Microsoft.Teams --accept-package-agreements --accept-source-agreements
-    }
+      try { winget install Microsoft.Teams --accept-package-agreements --accept-source-agreements } catch {}
   }
 }
 
