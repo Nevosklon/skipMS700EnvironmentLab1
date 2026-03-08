@@ -68,9 +68,9 @@ function Ensure-Module {
   param([Parameter(Mandatory=$true)][string]$Module)
   if (-not (Get-Module -ListAvailable -Name $Name)) {
     Write-Information "Installing module: $Name ..."
-    Install-Module $Name -Scope CurrentUser -Force -AllowClobber
+    Install-Module $Module -Scope CurrentUser -Force -AllowClobber
   }
-  Import-Module $Name -ErrorAction Stop
+  Import-Module $Module -ErrorAction Stop
 }
 
 function Ensure-Modules {
@@ -309,7 +309,7 @@ function Update-DirectorySettingValues {
 
     $changed = $true;
     if (-not $entry) {
-    $Setting.Values += @{ Name=$k; Value=$newVal }
+    $setting.Values += @{ Name=$k; Value=$newVal }
       Write-Information "Adding option $k = $newVal"
       continue
     }
@@ -323,10 +323,10 @@ function Update-DirectorySettingValues {
 
   if ($changed) {
     $settings = @{
-      DirectorySettingId = $Setting.Id
-      DirectorySetting   = @{ Values = $Setting.Values }
+      DirectorySettingId = $setting.Id
+      DirectorySetting   = @{ Values = $setting.Values }
     };
-    try { Update-NCreate-DirectorySetting @settings return } catch { Write-Error $_.Exception.Message }
+    try { Update-NCreate-DirectorySetting @settings  } catch { Write-Error $_.Exception.Message }
     return;
   };
 
