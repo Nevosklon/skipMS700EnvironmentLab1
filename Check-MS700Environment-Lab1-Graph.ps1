@@ -66,8 +66,8 @@ param(
 # ================= Modules =================
 function Ensure-Module {
   param([Parameter(Mandatory=$true)][string]$Module)
-  if (-not (Get-Module -ListAvailable -Name $Name)) {
-    Write-Information "Installing module: $Name ..."
+  if (-not (Get-Module -ListAvailable -Name $Module)) {
+    Write-Information "Installing module: $Module ..."
     Install-Module $Module -Scope CurrentUser -Force -AllowClobber
   }
   Import-Module $Module -ErrorAction Stop
@@ -309,7 +309,7 @@ function Update-DirectorySettingValues {
 
     $changed = $true;
     if (-not $entry) {
-    $setting.Values += @{ Name=$k; Value=$newVal }
+      $setting.Values += @{ Name=$k; Value=$newVal }
       Write-Information "Adding option $k = $newVal"
       continue
     }
