@@ -405,11 +405,11 @@ Write-Host "`n=== Ensuring Group Naming Policy ==="
 if ($PrefixSuffixNamingRequirement -notmatch '\[GroupName\]') { throw "PrefixSuffixNamingRequirement must include [GroupName]." }
 Ensure-GroupNamingPolicy -PrefixSuffixNamingRequirement $PrefixSuffixNamingRequirement -CustomBlockedWordsList $CustomBlockedWordsList
 
-Write-Host "`n=== Restricting Microsoft 365 Group creation to a security group ===" 
-Ensure-GroupCreationRestriction -AllowedCreatorsGroupName $AllowedCreatorsGroupName
+# Write-Host "`n=== Restricting Microsoft 365 Group creation to a security group ===" 
+# Ensure-GroupCreationRestriction -AllowedCreatorsGroupName $AllowedCreatorsGroupName
 
-Write-Host "`n=== Ensuring Group Lifecycle (Expiration) Policy ===" 
-Ensure-GroupLifecyclePolicy -GroupLifetimeInDays $GroupLifetimeInDays -AlternateNotificationEmails $LifecycleNotificationEmails
+# Write-Host "`n=== Ensuring Group Lifecycle (Expiration) Policy ===" 
+# Ensure-GroupLifecyclePolicy -GroupLifetimeInDays $GroupLifetimeInDays -AlternateNotificationEmails $LifecycleNotificationEmails
 
 # Optional: Disconnect once done with elevated permissions
 Disconnect-MgGraph -ErrorAction SilentlyContinue
