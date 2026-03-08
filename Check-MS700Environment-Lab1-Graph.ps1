@@ -61,8 +61,9 @@ param(
   [string]$AfterworkTeamName    = "Group_Afterwork_",
 
   [switch]$WhatIf
-  [switch]$WhatIf
-  [switch]$WhatIf
+  [switch]$EnableGroupRestrictPolciy
+  [switch]$EnableLifecyclePolicy
+
 )
 
 # ================= Modules =================
@@ -407,11 +408,15 @@ Write-Host "`n=== Ensuring Group Naming Policy ==="
 if ($PrefixSuffixNamingRequirement -notmatch '\[GroupName\]') { throw "PrefixSuffixNamingRequirement must include [GroupName]." }
 Ensure-GroupNamingPolicy -PrefixSuffixNamingRequirement $PrefixSuffixNamingRequirement -CustomBlockedWordsList $CustomBlockedWordsList
 
-# Write-Host "`n=== Restricting Microsoft 365 Group creation to a security group ===" 
-# Ensure-GroupCreationRestriction -AllowedCreatorsGroupName $AllowedCreatorsGroupName
+if ($EnableGroupRestrictPolciy) {
+  Write-Host "`n=== Restricting Microsoft 365 Group creation to a security group ===" 
+  Ensure-GroupCreationRestriction -AllowedCreatorsGroupName $AllowedCreatorsGroupName
+}
 
-# Write-Host "`n=== Ensuring Group Lifecycle (Expiration) Policy ===" 
-# Ensure-GroupLifecyclePolicy -GroupLifetimeInDays $GroupLifetimeInDays -AlternateNotificationEmails $LifecycleNotificationEmails
+if ($EnableLifecyclePolicy) {
+  Write-Host "`n=== Ensuring Group Lifecycle (Expiration) Policy ===" 
+  Ensure-GroupLifecyclePolicy -GroupLifetimeInDays $GroupLifetimeInDays -AlternateNotificationEmails $LifecycleNotificationEmails
+}
 
 # Optional: Disconnect once done with elevated permissions
 Disconnect-MgGraph -ErrorAction SilentlyContinue
