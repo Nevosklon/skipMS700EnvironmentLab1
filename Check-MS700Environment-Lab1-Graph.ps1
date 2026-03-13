@@ -293,7 +293,7 @@ function Get-OrCreate-GroupUnifiedSetting {
     $template = Get-MgBetaDirectorySettingTemplate | Where-Object { $_.DisplayName -eq 'Group.Unified' }
     if (-not $template) { throw "Group.Unified template not found." }
     if (-not $WhatIf) {
-      New-MgBetaDirectorySetting -BodyParmater @{ TemplateId=$template.Id; Values=@() } | Out-Null
+      New-MgBetaDirectorySetting -BodyParameter @{ TemplateId=$template.Id; Values=@() } | Out-Null
       $setting = Get-MgBetaDirectorySetting | Where-Object { $_.DisplayName -eq 'Group.Unified' }
     } else { Write-Host "WhatIf: Would create directory setting from template $($template.Id)" ; return $null } 
   }
